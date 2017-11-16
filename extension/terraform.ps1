@@ -66,10 +66,10 @@ function Install-Terraform
 
 function Invoke-Terraform
 {
-    $argumentents = Get-VstsInput -Name Arguments -Require
+    $arguments = (Get-VstsInput -Name Arguments -Require) -split '\s+'
     
-    Write-Host "Running: terraform $argumentents"
-    terraform $argumentents
+    Write-Host "Running: terraform $arguments"
+    & terraform $arguments
 
     if ($LASTEXITCODE)
     {
