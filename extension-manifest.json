@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "Vsts-Release-Terraform",
   "name": "Terraform",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "publisher": "tylerevert",
   "public": false,
   "targets": [

@@ -4,19 +4,21 @@ function Install-Terraform
 {
     $version = Get-VstsInput -Name Version
 
+    # Need to force using more up-to-date encryption protocols; Hashicorp is on-point deprecating broken ones.
+    [System.Net.ServicePointManager]::SecurityProtocol = `
+                [System.Net.SecurityProtocolType]::Tls11 -bor 
+                [System.Net.SecurityProtocolType]::Tls12 -bor `
+                [System.Net.SecurityProtocolType]::Tls -bor `
+                [System.Net.SecurityProtocolType]::Ssl3
+
     $terraformbaseurl = "https://releases.hashicorp.com/terraform/"
     $path = "c:\terraform-download"
 
     $regex = """/terraform/([0-9]+\.[0-9]+\.[0-9]+)/"""
 
-    $web = New-Object Net.WebClient
-    $webpage = $web.DownloadString($terraformbaseurl)
-
+    $webpage = (Invoke-WebRequest $terraformbaseurl -UseBasicParsing).Content
 
     $versions = $webpage -split "`n" | Select-String -pattern $regex -AllMatches | % { $_.Matches | % { $_.Groups[1].Value } }
-
-    $latest = $versions[0]
-
     if ($version -eq "latest")
     {
         $version = $versions[0]
@@ -25,14 +27,14 @@ function Install-Terraform
     {
         if (-not $versions.Contains($version))
         {   
-            throw [System.Exception] "$version not found."    
+            throw [System.Exception] "$version not found."
         }
     }
 
     $tempfile = [System.IO.Path]::GetTempFileName()
     $source = "https://releases.hashicorp.com/terraform/"+$version+"/terraform_"+$version+"_windows_amd64.zip"
 
-    Invoke-WebRequest $source -OutFile $tempfile
+    Invoke-WebRequest $source -UseBasicParsing -OutFile $tempfile
 
     if (-not (test-path $path))
     {
@@ -114,7 +116,12 @@ function Set-TerraformState
 }
 
 $templatesPath = Get-VstsInput -Name TemplatePath -Require
-cd $templatesPath
+if (-not (Test-Path $templatesPath)) {
+    Write-Host "##vso[task.logissue type=error;] Template Path location ($templatesPath) does not exist, failing out" 
+    Write-Host "##vso[task.complete result=Failed]"
+    exit(1)
+}
+Set-Location $templatesPath
 
 $installTerraform = Get-VstsInput -Name InstallTerraform -Require -AsBool
 $manageTerraformState = Get-VstsInput -Name ManageState -Require -AsBool
