@@ -1,7 +1,5 @@
 Trace-VstsEnteringInvocation $MyInvocation
 
-
-
 function Install-Terraform
 {
     $version = Get-VstsInput -Name Version
@@ -115,38 +113,20 @@ function Set-TerraformState
     Set-AzureStorageBlobContent -Force -Context $SourceContext -Container $StorageContainerName  -File "terraform.tfstate.backup" -Blob "terraform.tfstate.backup"
 }
 
-function Prepare
-{
-    $runpath = Get-VstsInput -Name RunPath -Require
-    $templatesPath = Get-VstsInput -Name TemplatePath -Require
+$templatesPath = Get-VstsInput -Name TemplatePath -Require
+cd $templatesPathPrepare
 
-    Write-Host "Source path $templatesPath, destination path $runpath"
-    if (-not (test-path $runpath)){
-         mkdir $runpath
-    }
-    
-    $path = "$templatesPath\*"
-    Copy-Item $path $runpath  -recurse 
-
-    cd $runpath
-}
-
-Prepare
-
-$installTerraform = Get-VstsInput -Name InstallTerraform -Require
-$manageTerraformState = Get-VstsInput -Name ManageState -Require 
+$installTerraform = Get-VstsInput -Name InstallTerraform -Require -AsBool
+$manageTerraformState = Get-VstsInput -Name ManageState -Require -AsBool
 
 if ($manageTerraformState){
     # Initialize Azure.
     Import-Module $PSScriptRoot\ps_modules\VstsAzureHelpers_
     Initialize-Azure
-
-   
     Get-TerraformState($StorageAccountName, $StorageContainerName)
 }
 
 if ($installTerraform){
-   
     Install-Terraform
 }
 

@@ -2,15 +2,15 @@
   "id": "31f040e5-e040-4336-878a-59a493289794",
   "name": "Terraform",
   "friendlyName": "Run Terraform",
-  "description": "Run a Terraform on the build agent",
-  "helpMarkDown": "[More Information](https://pgroene.wordpress.com/2016/06/14/getting-started-with-terraform-on-windows-and-azure/)",
+  "description": "Run Terraform on the build/release agent",
+  "helpMarkDown": "[More Information](https://github.com/tevert/Vsts-Release-Terraform)",
   "category": "Deploy",
   "visibility": [ "Build", "Release" ],
-  "author": "Peter Groenewegen - Xpirit",
+  "author": "Tyler Evert",
   "version": {
     "Major": 1,
     "Minor": 0,
-    "Patch": 0
+    "Patch": 3
   },
   "demands": [ "azureps" ],
   "minimumAgentVersion": "1.95.0",
@@ -21,15 +21,7 @@
       "label": "Terraform template path",
       "defaultValue": "",
       "required": true,
-      "helpMarkDown": "Source path where templates are stored"
-    },
-    {
-      "name": "RunPath",
-      "type": "filePath",
-      "label": "Run path",
-      "defaultValue": "",
-      "required": true,
-      "helpMarkDown": "Filepath where to run terraforms"
+      "helpMarkDown": "Source path of Terraform templates"
     },
     {
       "name": "Arguments",
@@ -106,15 +98,16 @@
       "properties": {
         "EditableOptions": "True"
       },
-      "helpMarkDown": "Enter the name the Blob container within the given StorageAccount."
+      "helpMarkDown": "Enter the name the Blob container within the given StorageAccount.",
+      "visibleRule": "ManageState == true"
     }
   ],
   "dataSourceBindings": [
-  {
-    "target": "StorageAccountRM",
-    "endpointId": "$(ConnectedServiceNameARM)",
-    "dataSourceName": "AzureStorageAccountRM"
-  }
+    {
+      "target": "StorageAccountRM",
+      "endpointId": "$(ConnectedServiceNameARM)",
+      "dataSourceName": "AzureStorageAccountRM"
+    }
   ],
   "instanceNameFormat": "Terraform $(Arguments)",
   "execution": {

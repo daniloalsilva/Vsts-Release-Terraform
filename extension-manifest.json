@@ -1,16 +1,16 @@
 {
   "manifestVersion": 1,
-  "id": "PeterGroenewegen-Xpirit-Vsts-Release-Terraform",
+  "id": "Vsts-Release-Terraform",
   "name": "Terraform",
-  "version": "1.0.2",
-  "publisher": "petergroenewegen",
-  "public": true,
+  "version": "1.0.3",
+  "publisher": "tylerevert",
+  "public": false,
   "targets": [
     {
       "id": "Microsoft.VisualStudio.Services"
     }
   ],
-  "description": "Build extension that enable you to run Terraforms on the build agent.",
+  "description": "Build extension for running Terraform commands.",
   "categories": [
     "Build and release"
   ],
@@ -26,29 +26,28 @@
     "cloud",
     "infrastucture as code",
     "Hashicorp",
-    "Xpirit",
     "deploy",
     "template"
   ],
   "screenshots": [
     {
-      "path": "Xpirit.Vsts.Release.Terraform.Extension/images/screenshot.png"
+      "path": "images/screenshot.png"
     }
   ],
   "content": {
     "details": {
-      "path": "Xpirit.Vsts.Release.Terraform.Extension/readme.md"
+      "path": "README.md"
     },
     "license": {
-      "path": "Xpirit.Vsts.Release.Terraform.Extension/license.txt"
+      "path": "LICENSE.md"
     }
   },
   "links": {
     "getstarted": {
-      "uri": "https://pgroene.wordpress.com/"
+      "uri": "https://github.com/tevert/Vsts-Release-Terraform"
     },
     "support": {
-      "uri": "https://github.com/XpiritBV/Vsts-Release-Task-Terraform"
+      "uri": "https://github.com/tevert/Vsts-Release-Terraform"
     }
   },
   "branding": {
@@ -56,23 +55,23 @@
     "theme": "dark"
   },
   "icons": {
-    "default": "Xpirit.Vsts.Release.Terraform.Extension/images/Terraform.png"
+    "default": "images/terraform.png"
   },
   "files": [
     {
-      "path": "Xpirit-Vsts-Release-Terraform"
+      "path": "extension"
     }
   ],
 
   "contributions": [
     {
-      "id": "Xpirit-Vsts-Release-Terraform",
+      "id": "Vsts-Release-Terraform",
       "type": "ms.vss-distributed-task.task",
       "targets": [
         "ms.vss-distributed-task.tasks"
       ],
       "properties": {
-        "name": "Xpirit-Vsts-Release-Terraform"
+        "name": "extension"
       }
     }
   ]
