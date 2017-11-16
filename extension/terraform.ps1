@@ -114,7 +114,7 @@ function Set-TerraformState
 }
 
 $templatesPath = Get-VstsInput -Name TemplatePath -Require
-cd $templatesPathPrepare
+cd $templatesPath
 
 $installTerraform = Get-VstsInput -Name InstallTerraform -Require -AsBool
 $manageTerraformState = Get-VstsInput -Name ManageState -Require -AsBool
