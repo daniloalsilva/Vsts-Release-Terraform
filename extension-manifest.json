@@ -2,9 +2,9 @@
   "manifestVersion": 1,
   "id": "Vsts-Release-Terraform",
   "name": "Terraform",
-  "version": "1.0.9",
+  "version": "1.0.12",
   "publisher": "tylerevert",
-  "public": false,
+  "public": true,
   "targets": [
     {
       "id": "Microsoft.VisualStudio.Services"
@@ -55,7 +55,7 @@
     "theme": "dark"
   },
   "icons": {
-    "default": "images/terraform.png"
+    "default": "images/icon.png"
   },
   "files": [
     {
